@@ -26,7 +26,7 @@ typedef struct	s_tetri
 	char		*str_tetri;
 }				t_tetri;
 
-typedef struct
+typedef struct	s_map
 {
 	size_t		size;
 	char		map[15][15];

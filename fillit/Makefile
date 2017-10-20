@@ -21,11 +21,10 @@ all: $(NAME)
 $(NAME):
 		@gcc $(FLAGS) $(NAME) $(SRC)
 
-clean:
-		@rm -rf *.o
+clean: ;
 
 fclean: clean
 		@rm -rf $(NAME)
 
-re: fclean 
+re: fclean
 	@make

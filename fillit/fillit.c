@@ -22,59 +22,39 @@
 **				- displays 'error' to stdout and exits
 */
 
+int      init_size(t_tetri **tetriminos)
+{
+    int ntet;
+	int	size;
+
+    ntet = 0;
+	size = 3;
+    while ((*tetriminos++)->str_tetri)
+		ntet++;
+    printf("ntet is: %d\n", ntet);
+	while ((size * size) < ntet * 4)
+        size++;
+    return (size);
+}
+
 static void		exit_error(char *str)
 {
 	ft_putendl(str);
 	exit(EXIT_FAILURE);
 }
 
-static t_map	*init_map(void)
-{
-	int			i;
-	int			j;
-	t_map		*map;
-
-	i = 0;
-	j = 0;
-	map = (t_map*)malloc(sizeof(t_map));
-	map->size = 4;
-	while (i < 15)
-	{
-		while (j < 15)
-		{
-			if (j < 4 && i < 4)
-				(map->map)[i][j] = '.';
-			else
-				(map->map)[i][j] = '\0';
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return (map);
-}
-
-static void		print_map(t_map *map)
-{
-	size_t		i;
-
-	i = 0;
-	while (i < (map->size) && (map->map)[i])
-		ft_putendl((map->map)[i++]);
-}
-
 /*
-** TODO: init_hardcoded_tetriminos. To be used within checker of valid tetrimino
 ** TODO: recursive backtracking solver
 ** TODO: init buf within parse_tetrimino_file and return it (not mandatory to do, but better practice? idk)
 **			- If not, then remember to free buf in case any error occurs. Quick solution is to pass buf
 				to error_exit, but makes no sense to free memory within an error handler. Works, not nice?
 */
+
 int				main(int argc, char **argv)
 {
 	int			fd;
 	t_tetri		**tetriminos;
-	t_map		*map;
+	// t_map		*map;
 	char		*buf;
 
 	buf = ft_memalloc(BUF_SIZE);
@@ -86,8 +66,10 @@ int				main(int argc, char **argv)
 		exit_error("error");
 	if (!(tetriminos = insert_array(buf))) //change initial implentation to insert from buffer rather than file
 		exit_error("error");
-	// map = init_map();
-	// //solve_smallest_square(tetriminos, map);
+    printf("%d\n", init_size(tetriminos));
+	// printf("%d\n", init_size(tetriminos));
+	// map = init_map(tetriminos);
+	// solve_smallest_square(tetriminos, map);
 	// print_map(map);
 	// ft_memdel((void**)&tetriminos);
 	// ft_memdel((void**)&buf);
