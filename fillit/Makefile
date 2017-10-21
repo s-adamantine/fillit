@@ -12,7 +12,7 @@
 
 NAME = fillit
 
-SRC = fillit.c parse_tetrimino_file.c insert_array.c hardcoded_tetrimino.c
+SRC = fillit.c parse_tetrimino_file.c insert_array.c hardcoded_tetrimino.c solve.c
 
 FLAGS = -Wall -Wextra -Werror -L../libft/. -lft -o
 

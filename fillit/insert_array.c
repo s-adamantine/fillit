@@ -6,7 +6,7 @@
 /*   By: rgaia <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 13:18:31 by rgaia             #+#    #+#             */
-/*   Updated: 2017/10/17 19:51:19 by rgaia            ###   ########.fr       */
+/*   Updated: 2017/10/20 14:47:41 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ static t_tetri	*get_next_tetrimino(char c, char	*str)
 	t = (t_tetri *)malloc(sizeof(t_tetri));
 	t->letter = c;
 	if (str)
-		t->str_tetri = ft_strdup(str);
+		t->str = ft_strdup(str);
 	else
-		t->str_tetri = NULL;
+		t->str = NULL;
 	ft_strdel(&str);
 	return (t);
 }

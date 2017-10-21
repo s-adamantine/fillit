@@ -22,25 +22,23 @@
 
 typedef struct	s_tetri
 {
+	int			m;
 	char		letter;
-	char		*str_tetri;
+	char		*str;
 }				t_tetri;
 
 typedef struct	s_map
 {
-	size_t		size;
-	char		map[15][15];
+	int			m;
+	int			size;
+	char		*str;
 }				t_map;
 
-
 int				parse_tetrimino_file(int fd, char *buf);
-
 t_tetri			**insert_array(char *buf);
-
 void			solve_smallest_square(t_tetri *tetriminos, t_map *map);
-
 char			**valid_tetriminos(void);
-
 char			*reduce_tetrimino(char *t);
+t_map			*solve_entry(t_tetri **tetriminos);
 
 #endif

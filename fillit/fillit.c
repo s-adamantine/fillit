@@ -22,20 +22,22 @@
 **				- displays 'error' to stdout and exits
 */
 
-int      init_size(t_tetri **tetriminos)
+void    print_map(t_map *map)
 {
-    int ntet;
-	int	size;
+    size_t      i;
+    char        *map_str;
 
-    ntet = 0;
-	size = 3;
-    while ((*tetriminos++)->str_tetri)
-		ntet++;
-    printf("ntet is: %d\n", ntet);
-	while ((size * size) < ntet * 4)
-        size++;
-    return (size);
+    i = 0;
+    map_str = map->str;
+    while (map_str[i])
+    {
+        if (i % (map->size + 1) == 0)
+            ft_putchar('\n');
+        else
+            ft_putchar(map_str[i++]);
+    }
 }
+
 
 static void		exit_error(char *str)
 {
@@ -63,12 +65,10 @@ int				main(int argc, char **argv)
 	if (!(fd = open(argv[1], O_RDONLY)))
 		exit(EXIT_FAILURE);
 	if (!(parse_tetrimino_file(fd, buf)))
-		exit_error("error");
+		exit_error("error here");
 	if (!(tetriminos = insert_array(buf))) //change initial implentation to insert from buffer rather than file
 		exit_error("error");
-    printf("%d\n", init_size(tetriminos));
-	// printf("%d\n", init_size(tetriminos));
-	// map = init_map(tetriminos);
+	solve_entry(tetriminos);
 	// solve_smallest_square(tetriminos, map);
 	// print_map(map);
 	// ft_memdel((void**)&tetriminos);
