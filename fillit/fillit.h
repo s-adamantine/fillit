@@ -40,5 +40,6 @@ void			solve_smallest_square(t_tetri *tetriminos, t_map *map);
 char			**valid_tetriminos(void);
 char			*reduce_tetrimino(char *t);
 t_map			*solve_entry(t_tetri **tetriminos);
+t_map			*init_map(t_tetri **tetriminos);
 
 #endif

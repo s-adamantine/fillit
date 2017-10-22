@@ -22,23 +22,6 @@
 **				- displays 'error' to stdout and exits
 */
 
-void    print_map(t_map *map)
-{
-    size_t      i;
-    char        *map_str;
-
-    i = 0;
-    map_str = map->str;
-    while (map_str[i])
-    {
-        if (i % (map->size + 1) == 0)
-            ft_putchar('\n');
-        else
-            ft_putchar(map_str[i++]);
-    }
-}
-
-
 static void		exit_error(char *str)
 {
 	ft_putendl(str);
@@ -56,7 +39,6 @@ int				main(int argc, char **argv)
 {
 	int			fd;
 	t_tetri		**tetriminos;
-	// t_map		*map;
 	char		*buf;
 
 	buf = ft_memalloc(BUF_SIZE);
@@ -69,8 +51,6 @@ int				main(int argc, char **argv)
 	if (!(tetriminos = insert_array(buf))) //change initial implentation to insert from buffer rather than file
 		exit_error("error");
 	solve_entry(tetriminos);
-	// solve_smallest_square(tetriminos, map);
-	// print_map(map);
 	// ft_memdel((void**)&tetriminos);
 	// ft_memdel((void**)&buf);
 	return (0);

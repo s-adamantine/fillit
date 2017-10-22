@@ -12,7 +12,25 @@
 
 #include "fillit.h"
 
-static t_map	*init_map(t_tetri **tetriminos)
+// iterate through map and prints a . or the character
+// (depending on the tetrimino that it's in)
+void    print_map(t_map *map)
+{
+    size_t      i;
+    char        *map_str;
+
+    i = 0;
+    map_str = map->str;
+    while (map_str[i])
+    {
+        if (i % (map->size + 1) == 0)
+            ft_putchar('\n');
+        else
+            ft_putchar(map_str[i++]);
+    }
+}
+
+t_map	*init_map(t_tetri **tetriminos)
 {
     int		i;
     int 	ntet;
@@ -61,7 +79,7 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
     return (1);
 }
 
-// copies out the tetrimino to the map at the position (when check_fit suceeds)
+// copies out the tetrimino to the map starting at m (when check_fit suceeds)
 // at this point map->m should be where you're supposed to fit it.
 static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
 {
@@ -72,7 +90,10 @@ static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
     tet_str = tetrimino->str;
     while (*tet_str)
     {
-        (map->str)[m++] = *tet_str++;
+        if (*tet_str++ == '#')
+            (map->str)[m++] = tetrimino->letter;
+        else
+            (map->str)[m++] = '.';
     }
 }
 
@@ -88,8 +109,6 @@ static t_map 	*fit_tetrimino(t_map *map, t_tetri *tetrimino)
     M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str);
 	while (map->m < M)
 	{
-        printf("cur str: %s\n", cur_str);
-        printf("%d\n", check_fit(map, tetrimino));
         if (check_fit(map, tetrimino))
         {
             insert_tetrimino(map, tetrimino);
@@ -103,15 +122,19 @@ static t_map 	*fit_tetrimino(t_map *map, t_tetri *tetrimino)
 
 t_map	*solve(t_tetri **tetriminos, t_map *map)
 {
-    printf("fitting the first tetrimino.\n");
     fit_tetrimino(map, tetriminos[0]);
-    printf("fitting the second tetrimino.\n");
+    printf("tetriminos->str: %s\n", tetriminos[0]->str);
+    printf("map->str: %s\n", map->str);
     fit_tetrimino(map, tetriminos[1]);
-    printf("the final map is: %s\n", map->str);
-    // map = fit_tetrimino(map, tetriminos[2]);
+    printf("tetriminos->str: %s\n", tetriminos[1]->str);
+    printf("map->str: %s\n", map->str);
+    fit_tetrimino(map, tetriminos[2]);
+    printf("tetriminos->str: %s\n", tetriminos[2]->str);
+    printf("map->str: %s\n", map->str);
     return (map);
 }
 
+//need this so that bc you can't instantiate when you backtrack
 t_map    *solve_entry(t_tetri **tetriminos)
 {
     t_map   *map;
