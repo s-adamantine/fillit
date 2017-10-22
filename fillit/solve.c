@@ -46,22 +46,34 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
     m = map->m;
     tet_str = tetrimino->str;
     map_str = map->str;
-    printf("tet str %s\n", tet_str);
-    printf("map str %s\n", map_str);
-    printf("map m %d\n", m);
     while (*tet_str)
     {
         if (*tet_str++ == '#')
         {
-            if (*map_str == '.')
-                map_str++;
+            if (map_str[m] == '.')
+                m++;
             else
                 return (0);
         }
         else
-            map_str++;
+            m++;
     }
     return (1);
+}
+
+// copies out the tetrimino to the map at the position (when check_fit suceeds)
+// at this point map->m should be where you're supposed to fit it.
+static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
+{
+    int     m;
+    char    *tet_str;
+
+    m = map->m;
+    tet_str = tetrimino->str;
+    while (*tet_str)
+    {
+        (map->str)[m++] = *tet_str++;
+    }
 }
 
 // iterates through map and calls check_fit at every m, if check_fit
@@ -69,26 +81,31 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
 // it finds a fit.
 static t_map 	*fit_tetrimino(t_map *map, t_tetri *tetrimino)
 {
-	int		 m;
+    int     M;
 	char	*cur_str;
 
-	m = map->m; //current spot in the map
 	cur_str = tetrimino->str;
-	while (*cur_str++)
+    M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str);
+	while (map->m < M)
 	{
-        if (!check_fit(map, tetrimino))
+        printf("cur str: %s\n", cur_str);
+        printf("%d\n", check_fit(map, tetrimino));
+        if (check_fit(map, tetrimino))
         {
-            map->m++;
+            insert_tetrimino(map, tetrimino);
+            return (map);
         }
         else
-            return (map);
+            map->m++;
 	}
 	return (map);
 }
 
 t_map	*solve(t_tetri **tetriminos, t_map *map)
 {
+    printf("fitting the first tetrimino.\n");
     fit_tetrimino(map, tetriminos[0]);
+    printf("fitting the second tetrimino.\n");
     fit_tetrimino(map, tetriminos[1]);
     printf("the final map is: %s\n", map->str);
     // map = fit_tetrimino(map, tetriminos[2]);
