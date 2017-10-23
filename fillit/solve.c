@@ -58,9 +58,8 @@ t_map	*init_map(t_tetri **tetriminos)
 }
 
 //check if the tetrimino would fit at the map at m
-//at i = 4, iterate skip i + (size - 4).
-
-//check for t so that it checks the fit properly w/ offset
+//m iterates through map, t iterates through tetrimino
+//at t = 4, m would offset to account for different map sizes
 static int      check_fit(t_map *map, t_tetri *tetrimino)
 {
     int     m;
@@ -75,16 +74,12 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
     printf("checking at m: %d\n", map->m);
     while (tet_str[t])
     {
-        if (t % 4 == 0)
-        {
+        if (t != 0 && t % 4 == 0)
             m = m + (map->size) - 4;
-        }
         if (tet_str[t++] == '#')
         {
             if (map_str[m] == '.')
-            {
                 m++;
-            }
             else
                 return (0);
         }
@@ -93,32 +88,32 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
     }
     return (1);
 }
-
-// copies out the tetrimino to the map starting at m (when check_fit suceeds)
-// at this point map->m should be where you're supposed to fit it.
-
-
-//instatntiate t so that it inserts properly w/ offset
+// copies out the tetrimino to the map at the m where check_fit succeds
 static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
 {
+    int     t;
     int     m;
     char    *tet_str;
 
+    t = 0;
     m = map->m;
     tet_str = tetrimino->str;
-    while (*tet_str)
+    while (tet_str[t])
     {
-        if (*tet_str++ == '#')
+        if (t != 0 && t % 4 == 0)
+            m = m + (map->size) - 4;
+        if (tet_str[t++] == '#')
             (map->str)[m++] = tetrimino->letter;
         else
             m++;
     }
+    map->m++;
 }
 
 // iterates through map and calls check_fit at every m, if check_fit
 // works, copies out tetrimino to the map, else increments m until
 // it finds a fit.
-static t_map 	*fit_tetrimino(t_map *map, t_tetri *tetrimino)
+static void fit_tetrimino(t_map *map, t_tetri *tetrimino)
 {
     int     M;
 	char	*cur_str;
@@ -130,15 +125,15 @@ static t_map 	*fit_tetrimino(t_map *map, t_tetri *tetrimino)
         if (check_fit(map, tetrimino))
         {
             insert_tetrimino(map, tetrimino);
-            map->m++; //since it fits, the next m would start here
-            return (map);
+            return ;
         }
         else
         {
             map->m++;
+            fit_tetrimino(map, tetrimino);
         }
 	}
-	return (map);
+	return ;
 }
 
 t_map	*solve(t_tetri **tetriminos, t_map *map)
