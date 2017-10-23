@@ -47,7 +47,7 @@ int				main(int argc, char **argv)
 	if (!(fd = open(argv[1], O_RDONLY)))
 		exit(EXIT_FAILURE);
 	if (!(parse_tetrimino_file(fd, buf)))
-		exit_error("error here");
+		exit_error("error");
 	if (!(tetriminos = insert_array(buf))) //change initial implentation to insert from buffer rather than file
 		exit_error("error");
 	solve_entry(tetriminos);
