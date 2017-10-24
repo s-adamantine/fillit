@@ -65,16 +65,20 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
     char    *tet_str;
     char    *map_str;
 
-    m = map->m;
+    printf("initiating new check_fit\n");
     t = 0;
     tet_str = tetrimino->str;
     map_str = map->str;
-    if (m % map->size > map->size - tetrimino->width)
-        m = m + (map->size - (m % map->size) + 1);
+    if (map->m % map->size > map->size - tetrimino->width)
+        map->m = map->m + (map->size - (map->m % map->size)); //this is not a good idea.
+    // previously = everything was m instead of map->m, but this doesn't work bc map->m is
+    // still being incremented by 1 in insert_tetrimino.
+    m = map->m;
     while (tet_str[t])
     {
         if (t != 0 && t % 4 == 0)
             m = m + (map->size) - 4;
+        printf("tet_str[%d]:[%c], map_str[%d]:[%c]\n", t, tet_str[t], m, map_str[m]);
         if (tet_str[t++] == '#')
         {
             if (map_str[m] == '.')
@@ -122,6 +126,8 @@ static void fit_tetrimino(t_map *map, t_tetri *tetrimino)
     M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str); //last m where it needs to fit
 	while (map->m <= M)
 	{
+        //check fit needs to be able to iterate through the map from l->r to find the next
+        //empty space and try to fit it there, not just fitting linearly. (not even w/ backtracking yet)
         if (check_fit(map, tetrimino))
         {
             insert_tetrimino(map, tetrimino);
