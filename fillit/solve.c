@@ -104,6 +104,8 @@ static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
         else
             m++;
     }
+    tetrimino->coord = map->m;
+    printf("tet[i]'s coordinates: %d\n", tetrimino->coord);
     map->m++;
 }
 
