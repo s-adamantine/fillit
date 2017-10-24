@@ -65,6 +65,7 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
     char    *tet_str;
     char    *map_str;
 
+
     m = map->m;
     t = 0;
     tet_str = tetrimino->str;
@@ -85,8 +86,10 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
         else
             m++;
     }
+    tetrimino->coord = map->m;
     return (1);
 }
+
 // copies out the tetrimino to the map at the m where check_fit succeds
 static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
 {
@@ -95,7 +98,7 @@ static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
     char    *tet_str;
 
     t = 0;
-    m = map->m;
+    m = tetrimino->coord;
     tet_str = tetrimino->str;
     if (m % map->size > map->size - 4)
         m = m + (map->size) - 4;
@@ -108,8 +111,7 @@ static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
         else
             m++;
     }
-    tetrimino->coord = map->m;
-    // printf("tet[i]'s coordinates: %d\n", tetrimino->coord);
+    printf("tet[i]'s coordinates: %d\n", tetrimino->coord);
     map->m++;
 }
 
@@ -120,7 +122,7 @@ static void fit_tetrimino(t_map *map, t_tetri *tetrimino)
 {
     int     M;
 
-    M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str);
+    M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str); //last m where it needs to fit
 	while (map->m <= M)
 	{
         if (check_fit(map, tetrimino))
@@ -131,7 +133,7 @@ static void fit_tetrimino(t_map *map, t_tetri *tetrimino)
         else
             map->m++;
 	}
-	return ;
+	return;
 }
 
 t_map	*solve(t_tetri **tetriminos, t_map *map)
