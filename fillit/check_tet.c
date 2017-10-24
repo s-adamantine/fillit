@@ -14,10 +14,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-/*
-	Stores all valid tetriminos in an array.
-	Uses string compare to check if the tetrimino passed is valid.
-*/
 
 static char	**ft_darraynew(int i, int j)
 {
@@ -32,7 +28,6 @@ static char	**ft_darraynew(int i, int j)
 }
 
 char	**valid_tetriminos(void)
-//run through and strcmp everything
 {
     char    **valids;
 
@@ -80,4 +75,3 @@ char	*reduce_tetrimino(char *t)
     *reduced = '\0';
     return (reducedcpy);
 }
-

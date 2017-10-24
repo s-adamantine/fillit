@@ -22,7 +22,8 @@
 
 typedef struct	s_tetri
 {
-	int			m;
+	int			coord;
+	int			width;
 	char		letter;
 	char		*str;
 }				t_tetri;

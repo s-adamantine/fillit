@@ -18,7 +18,7 @@
 ** checks str by comparison to all 19 hard coded tetrimino pieces
 */
 
-static int	valid_characters(char *t)
+static int	count_hash(char *t)
 {
 	int count;
 
@@ -33,43 +33,67 @@ static int	valid_characters(char *t)
 	return (1);
 }
 
+//input: unreduced tetrimino string
+//checks the coordinate of the # to see if it's a min or a max
+//output: width of the tetrimino
+static int	tet_width(char *t)
+{
+	int	x;
+	int l; //leftmost
+	int r; //rightmost
+
+	x = 0;
+	l = 4;
+	r = 0;
+	while(*t)
+	{
+		if (x % 4 == 0) //the x coordinate will always be < 4
+			x = 0;
+		if (*t++ == '#')
+		{
+			if (x < l)
+				l = x;
+			if (x > r)
+				r = x;
+		}
+		x++;
+	}
+	return (r - l);
+}
+
 static int	isvalid_tetrimino(char	*tetrimino)
 {
 	char	**hardcoded;
 
-	if(!valid_characters(tetrimino))
+	if(!count_hash(tetrimino))
 		return (0);
-	tetrimino = reduce_tetrimino(tetrimino);
 	hardcoded = valid_tetriminos();
 	while (*hardcoded)
 	{
-		if (ft_strcmp(tetrimino, *hardcoded++) == 0)
+		if (ft_strcmp(reduce_tetrimino(tetrimino), *hardcoded++) == 0)
 			return (1);
 	}
 	return (0);
 }
 
-static t_tetri	*get_next_tetrimino(char c, char	*str)
+static t_tetri	*get_next_tetrimino(char c, char *str)
 {
 	t_tetri	*t;
 
 	t = (t_tetri *)malloc(sizeof(t_tetri));
 	t->letter = c;
 	if (str)
-		t->str = ft_strdup(str);
+	{
+		t->str = reduce_tetrimino(str);
+		t->width = tet_width(str);
+	}
 	else
 		t->str = NULL;
 	ft_strdel(&str);
 	return (t);
 }
 
-/*
-**	@in: buffer with valid file format and characters with min 1, max 26 possible tetriminos
-**	@out: tetrimino array of type t_tetri
-**			- contains valid tetrimino with unique capital case letter
-**	@error: invalid tetrimino
-**			- returns NULL
-*/
+// an array of valid tetriminos
 t_tetri			**insert_array(char *buf)
 {
 	int		i;
@@ -86,7 +110,7 @@ t_tetri			**insert_array(char *buf)
 		str = ft_strnew(20);
 		str = ft_strncpy(str, buf, 20);
 		if (isvalid_tetrimino(str))
-			tetriminos[i++] = get_next_tetrimino(letter++, reduce_tetrimino(str));
+			tetriminos[i++] = get_next_tetrimino(letter++, str);
 		else
 			return (NULL);
 		buf = buf + 21;

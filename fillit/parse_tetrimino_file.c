@@ -13,7 +13,7 @@
 #include "fillit.h"
 
 /*
-** These function reads a file into a buffer, and checks for invalid file format and characters 
+** These function reads a file into a buffer, and checks for invalid file format and characters
 ** @in: open file descriptor to read from file to buf
 ** @out: number of tetriminos in file that have been saved in buf
 ** @error: returns -1 if any of following happens:
@@ -44,7 +44,7 @@ static int	check_valid_format(char *buf)
 			row_len = 0;
 			colum_len++;
 			if (colum_len == 4 && buf[i + 1] == '\n') //increments passed new line splitting tetriminos
-			{	
+			{
 				colum_len = 0;
 				i++;
 			}
@@ -65,5 +65,5 @@ int			parse_tetrimino_file(int fd, char *buf)
 	if (buf_size > 545 || buf_size < 20) //checks contains min 1, max 26 tetriminos
 		return (0);
 	buf[buf_size] = '\0';
-	return (check_valid_format(buf)); 
+	return (check_valid_format(buf));
 }

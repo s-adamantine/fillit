@@ -137,6 +137,7 @@ t_map	*solve(t_tetri **tetriminos, t_map *map)
     {
         fit_tetrimino(map, tetriminos[i]);
         printf("tetriminos->str[%d]: %s\n", i, tetriminos[i]->str);
+        printf("tetriminos->width[%d]: %d\n", i, tetriminos[i]->width);
         printf("map->str: %s\n", map->str);
         i++;
     }
