@@ -47,7 +47,7 @@ static int	tet_width(char *t)
 	r = 0;
 	while(*t)
 	{
-		if (x % 4 == 0) //the x coordinate will always be < 4
+		if (x % 5 == 0) //the x coordinate will always be < 4
 			x = 0;
 		if (*t++ == '#')
 		{
@@ -58,7 +58,7 @@ static int	tet_width(char *t)
 		}
 		x++;
 	}
-	return (r - l);
+	return (r - l + 1);
 }
 
 static int	isvalid_tetrimino(char	*tetrimino)

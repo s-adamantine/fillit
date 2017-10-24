@@ -28,13 +28,6 @@ static void		exit_error(char *str)
 	exit(EXIT_FAILURE);
 }
 
-/*
-** TODO: recursive backtracking solver
-** TODO: init buf within parse_tetrimino_file and return it (not mandatory to do, but better practice? idk)
-**			- If not, then remember to free buf in case any error occurs. Quick solution is to pass buf
-				to error_exit, but makes no sense to free memory within an error handler. Works, not nice?
-*/
-
 int				main(int argc, char **argv)
 {
 	int			fd;
@@ -48,7 +41,7 @@ int				main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	if (!(parse_tetrimino_file(fd, buf)))
 		exit_error("error");
-	if (!(tetriminos = insert_array(buf))) //change initial implentation to insert from buffer rather than file
+	if (!(tetriminos = insert_array(buf)))
 		exit_error("error");
 	solve_entry(tetriminos);
 	// ft_memdel((void**)&tetriminos);
