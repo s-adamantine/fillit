@@ -64,10 +64,6 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
     int     t;
 
     t = 0;
-    if (map->m % map->size > map->size - tetrimino->width)
-        map->m = map->m + (map->size - (map->m % map->size)); //this is not a good idea.
-    // previously = everything was m instead of map->m, but this doesn't work bc map->m is
-    // still being incremented by 1 in insert_tetrimino.
     m = map->m;
     while (tetrimino->str[t])
     {
@@ -87,7 +83,7 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
     return (1);
 }
 
-// copies out the tetrimino to the map at the m where check_fit succeds
+//copies out the tetrimino to the map at the m where check_fit succeds
 static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
 {
     int     t;
@@ -105,26 +101,49 @@ static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
     }
 }
 
+//goes through the map from the beginning and tries to find an empty '.'
+//at a location that would accomodate for the width of the tetrimino.
+//must be able to call this in a loop for each tetrimino and find the m
+//locations
+void    scout_spot(t_map *map, t_tetri *tetrimino)
+{
+    int x;
+    int m;
+
+    m = map->m;
+    while (map->str[m])
+    {
+        x = m % map->size; //the x coordinate
+        if (x > map->size - tetrimino->width)
+            m = m + (map->size - x); //why isn't this taking into account
+        if (map->str[m] == '.')
+        {
+            map->m = m;
+            return;
+        }
+        m++;
+    }
+}
+
 // iterates through map and calls check_fit at every m, if check_fit
 // works, copies out tetrimino to the map, else increments m until
 // it finds a fit.
-static void fit_tetrimino(t_map *map, t_tetri *tetrimino)
+static int  fit_tetrimino(t_map *map, t_tetri *tetrimino)
 {
     int     M;
 
-    M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str); //last m where it needs to fit
+    M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str); //last m where it needs to try fitting
 	while (map->m <= M)
 	{
-        //check fit needs to be able to iterate through the map from l->r to find the next
-        //empty space and try to fit it there, not just fitting linearly. (not even w/ backtracking yet)
+        scout_spot(map, tetrimino);
         if (check_fit(map, tetrimino))
         {
             insert_tetrimino(map, tetrimino);
-            return;
+            return (1);
         }
-        map->m++;
+        map->m++; //fix this atrocity though
 	}
-	return;
+	return (0);
 }
 
 t_map	*solve(t_tetri **tetriminos, t_map *map)
@@ -134,7 +153,9 @@ t_map	*solve(t_tetri **tetriminos, t_map *map)
     i = 0;
     while (tetriminos[i]->str)
     {
+        map->m = 0;
         fit_tetrimino(map, tetriminos[i]);
+
         printf("tetriminos->str[%d]: %s\n", i, tetriminos[i]->str);
         printf("tetriminos->width[%d]: %d\n", i, tetriminos[i]->width);
         printf("map->str: %s\n", map->str);
