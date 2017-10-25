@@ -62,26 +62,20 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
 {
     int     m;
     int     t;
-    char    *tet_str;
-    char    *map_str;
 
-    printf("initiating new check_fit\n");
     t = 0;
-    tet_str = tetrimino->str;
-    map_str = map->str;
     if (map->m % map->size > map->size - tetrimino->width)
         map->m = map->m + (map->size - (map->m % map->size)); //this is not a good idea.
     // previously = everything was m instead of map->m, but this doesn't work bc map->m is
     // still being incremented by 1 in insert_tetrimino.
     m = map->m;
-    while (tet_str[t])
+    while (tetrimino->str[t])
     {
         if (t != 0 && t % 4 == 0)
             m = m + (map->size) - 4;
-        printf("tet_str[%d]:[%c], map_str[%d]:[%c]\n", t, tet_str[t], m, map_str[m]);
-        if (tet_str[t++] == '#')
+        if (tetrimino->str[t++] == '#')
         {
-            if (map_str[m] == '.')
+            if (map->str[m] == '.')
                 m++;
             else
                 return (0);
@@ -98,22 +92,17 @@ static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
 {
     int     t;
     int     m;
-    char    *tet_str;
 
     t = 0;
     m = tetrimino->coord;
-    tet_str = tetrimino->str;
-    while (tet_str[t])
+    while (tetrimino->str[t])
     {
         if (t != 0 && t % 4 == 0)
             m = m + (map->size) - 4;
-        if (tet_str[t++] == '#')
-            (map->str)[m++] = tetrimino->letter;
-        else
-            m++;
+        if (tetrimino->str[t++] == '#')
+            (map->str)[m] = tetrimino->letter;
+        m++;
     }
-    // printf("tet[i]'s coordinates: %d\n", tetrimino->coord);
-    map->m++;
 }
 
 // iterates through map and calls check_fit at every m, if check_fit
@@ -133,8 +122,7 @@ static void fit_tetrimino(t_map *map, t_tetri *tetrimino)
             insert_tetrimino(map, tetrimino);
             return;
         }
-        else
-            map->m++;
+        map->m++;
 	}
 	return;
 }
