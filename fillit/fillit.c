@@ -31,7 +31,7 @@ static void		exit_error(char *str)
 int				main(int argc, char **argv)
 {
 	int			fd;
-	t_tetri		**tetriminos;
+	t_tet		**tetriminos;
 	char		*buf;
 
 	buf = ft_memalloc(BUF_SIZE);

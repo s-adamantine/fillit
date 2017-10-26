@@ -20,13 +20,13 @@
 # include <stdio.h> //DELETE before submission
 # include "../libft/libft.h"
 
-typedef struct	s_tetri
+typedef struct	s_tet
 {
 	int			coord;
 	int			width;
 	char		letter;
 	char		*str;
-}				t_tetri;
+}				t_tet;
 
 typedef struct	s_map
 {
@@ -36,11 +36,11 @@ typedef struct	s_map
 }				t_map;
 
 int				parse_tetrimino_file(int fd, char *buf);
-t_tetri			**insert_array(char *buf);
-void			solve_smallest_square(t_tetri *tetriminos, t_map *map);
+t_tet			**insert_array(char *buf);
+void			solve_smallest_square(t_tet *tetriminos, t_map *map);
 char			**valid_tetriminos(void);
 char			*reduce_tetrimino(char *t);
-t_map			*solve_entry(t_tetri **tetriminos);
-t_map			*init_map(t_tetri **tetriminos);
+t_map			*solve_entry(t_tet **tetriminos);
+t_map			*init_map(t_tet **tetriminos);
 
 #endif

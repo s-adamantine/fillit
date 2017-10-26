@@ -6,17 +6,11 @@
 /*   By: rgaia <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 13:18:31 by rgaia             #+#    #+#             */
-/*   Updated: 2017/10/20 14:47:41 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/10/25 18:15:19 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-
-/*
-** @in: a possible tetrimino, a string of size 20
-** @out: 1 if a valid match, 0 otherwise
-** checks str by comparison to all 19 hard coded tetrimino pieces
-*/
 
 static int	count_hash(char *t)
 {
@@ -76,11 +70,11 @@ static int	isvalid_tetrimino(char	*tetrimino)
 	return (0);
 }
 
-static t_tetri	*get_next_tetrimino(char c, char *str)
+static t_tet	*get_next_tetrimino(char c, char *str)
 {
-	t_tetri	*t;
+	t_tet	*t;
 
-	t = (t_tetri *)malloc(sizeof(t_tetri));
+	t = (t_tet *)malloc(sizeof(t_tet));
 	t->letter = c;
 	if (str)
 	{
@@ -94,16 +88,16 @@ static t_tetri	*get_next_tetrimino(char c, char *str)
 }
 
 // an array of valid tetriminos
-t_tetri			**insert_array(char *buf)
+t_tet			**insert_array(char *buf)
 {
 	int		i;
 	char	letter;
 	char	*str;
-	t_tetri	**tetriminos;
+	t_tet	**tetriminos;
 
 	i = 0;
 	letter = 'A';
-	if (!(tetriminos = ft_memalloc(sizeof(t_tetri *) * 26)))
+	if (!(tetriminos = ft_memalloc(sizeof(t_tet *) * 26)))
 		return (NULL);
 	while (*buf)
 	{

@@ -6,7 +6,7 @@
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 17:08:34 by sadamant          #+#    #+#             */
-/*   Updated: 2017/10/19 17:08:45 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/10/25 18:13:09 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void    print_map(t_map *map)
     }
 }
 
-t_map	*init_map(t_tetri **tetriminos)
+t_map	*init_map(t_tet **tetriminos)
 {
     int		i;
     int 	ntet;
@@ -58,13 +58,14 @@ t_map	*init_map(t_tetri **tetriminos)
 //check if the tetrimino would fit at the map at m
 //m iterates through map, t iterates through tetrimino
 //at t = 4, m would offset to account for different map sizes
-static int      check_fit(t_map *map, t_tetri *tetrimino)
+static int      check_fit(t_map *map, t_tet *tetrimino)
 {
     int     m;
     int     t;
 
     t = 0;
     m = map->m;
+    printf("check fit in %d\n", map->m);
     while (tetrimino->str[t])
     {
         if (t != 0 && t % 4 == 0)
@@ -84,7 +85,7 @@ static int      check_fit(t_map *map, t_tetri *tetrimino)
 }
 
 //copies out the tetrimino to the map at the m where check_fit succeds
-static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
+static void insert_tetrimino(t_map *map, t_tet *tetrimino)
 {
     int     t;
     int     m;
@@ -95,6 +96,8 @@ static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
     {
         if (t != 0 && t % 4 == 0)
             m = m + (map->size) - 4;
+        printf("t[%c], ", tetrimino->str[t]);
+        printf("m[%d]: %c\n", m, map->str[m]);
         if (tetrimino->str[t++] == '#')
             (map->str)[m] = tetrimino->letter;
         m++;
@@ -105,7 +108,7 @@ static void insert_tetrimino(t_map *map, t_tetri *tetrimino)
 //at a location that would accomodate for the width of the tetrimino.
 //must be able to call this in a loop for each tetrimino and find the m
 //locations
-void    scout_spot(t_map *map, t_tetri *tetrimino)
+void    scout_spot(t_map *map, t_tet *tetrimino)
 {
     int x;
     int m;
@@ -115,7 +118,7 @@ void    scout_spot(t_map *map, t_tetri *tetrimino)
     {
         x = m % map->size; //the x coordinate
         if (x > map->size - tetrimino->width)
-            m = m + (map->size - x); //why isn't this taking into account
+            m = m + (map->size - x); //this doesn't work if the tet goes to the left....
         if (map->str[m] == '.')
         {
             map->m = m;
@@ -128,7 +131,7 @@ void    scout_spot(t_map *map, t_tetri *tetrimino)
 // iterates through map and calls check_fit at every m, if check_fit
 // works, copies out tetrimino to the map, else increments m until
 // it finds a fit.
-static int  fit_tetrimino(t_map *map, t_tetri *tetrimino)
+static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
 {
     int     M;
 
@@ -146,7 +149,7 @@ static int  fit_tetrimino(t_map *map, t_tetri *tetrimino)
 	return (0);
 }
 
-t_map	*solve(t_tetri **tetriminos, t_map *map)
+t_map	*solve(t_tet **tetriminos, t_map *map)
 {
     int i;
 
@@ -155,7 +158,6 @@ t_map	*solve(t_tetri **tetriminos, t_map *map)
     {
         map->m = 0;
         fit_tetrimino(map, tetriminos[i]);
-
         printf("tetriminos->str[%d]: %s\n", i, tetriminos[i]->str);
         printf("tetriminos->width[%d]: %d\n", i, tetriminos[i]->width);
         printf("map->str: %s\n", map->str);
@@ -165,7 +167,7 @@ t_map	*solve(t_tetri **tetriminos, t_map *map)
 }
 
 //need this so that bc you can't instantiate when you backtrack
-t_map    *solve_entry(t_tetri **tetriminos)
+t_map    *solve_entry(t_tet **tetriminos)
 {
     t_map   *map;
 
