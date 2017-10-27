@@ -13,7 +13,7 @@
 #include "fillit.h"
 
 /*
-** These function reads a file into a buffer, and checks for invalid file format and characters
+** These functions read a file into a buffer, and checks for invalid file format and characters
 ** @in: open file descriptor to read from file to buf
 ** @out: number of tetriminos in file that have been saved in buf
 ** @error: returns -1 if any of following happens:

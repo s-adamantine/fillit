@@ -12,7 +12,7 @@
 
 NAME = fillit
 
-SRC = fillit.c parse.c insert.c solve.c
+SRC = fillit.c parse.c insert.c solve.c map.c
 
 FLAGS = -Wall -Wextra -Werror -L../libft/. -lft -o
 
