@@ -22,7 +22,7 @@ static int      check_fit(t_map *map, t_tet *tetrimino)
 
     t = 0;
     m = map->m;
-    printf("check fit in %d\n", map->m);
+    // printf("check fit in %d\n", map->m);
     while (tetrimino->str[t])
     {
         if (t != 0 && t % 4 == 0)
@@ -53,34 +53,10 @@ static void insert_tetrimino(t_map *map, t_tet *tetrimino)
     {
         if (t != 0 && t % 4 == 0)
             m = m + (map->size) - 4;
-        printf("t[%c], ", tetrimino->str[t]);
-        printf("m[%d]: %c\n", m, map->str[m]);
+        // printf("t[%c], ", tetrimino->str[t]);
+        // printf("m[%d]: %c\n", m, map->str[m]);
         if (tetrimino->str[t++] == '#')
             (map->str)[m] = tetrimino->letter;
-        m++;
-    }
-}
-
-//goes through the map from the beginning and tries to find an empty '.'
-//at a location that would accomodate for the width of the tetrimino.
-//must be able to call this in a loop for each tetrimino and find the m
-//locations
-void    scout_spot(t_map *map, t_tet *tetrimino)
-{
-    int x;
-    int m;
-
-    m = map->m;
-    while (map->str[m])
-    {
-        x = m % map->size; //the x coordinate
-        if (x > map->size - tetrimino->width)
-            m = m + (map->size - x); //this doesn't work if the tet goes to the left....
-        if (map->str[m] == '.')
-        {
-            map->m = m;
-            return;
-        }
         m++;
     }
 }
@@ -95,13 +71,14 @@ static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
     M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str); //last m where it needs to try fitting
 	while (map->m <= M)
 	{
-        scout_spot(map, tetrimino);
+        if (map->m % map->size > map->size - tetrimino->width)
+            map->m = map->m + (map->size - (map->m % map->size));
         if (check_fit(map, tetrimino))
         {
             insert_tetrimino(map, tetrimino);
             return (1);
         }
-        map->m++; //fix this atrocity though
+        map->m++;
 	}
 	return (0);
 }
@@ -116,7 +93,6 @@ t_map	*solve(t_tet **tetriminos, t_map *map)
         map->m = 0;
         fit_tetrimino(map, tetriminos[i]);
         printf("tetriminos->str[%d]: %s\n", i, tetriminos[i]->str);
-        printf("tetriminos->width[%d]: %d\n", i, tetriminos[i]->width);
         printf("map->str: %s\n", map->str);
         i++;
     }

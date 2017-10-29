@@ -42,7 +42,7 @@ int				main(int argc, char **argv)
 	if (!(parse_tetrimino_file(fd, buf)))
 		exit_error("error");
 	if (!(tetriminos = insert_array(buf)))
-		exit_error("error");
+		exit_error("error in insert.");
 	solve_entry(tetriminos);
 	// ft_memdel((void**)&tetriminos);
 	// ft_memdel((void**)&buf);

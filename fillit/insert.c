@@ -80,25 +80,66 @@ static int	tet_width(char *t)
 	return (r - l + 1);
 }
 
+static int	leftmost(char *t)
+{
+	int	x;
+	int l; //leftmost
+	int r; //rightmost
+
+	x = 0;
+	l = 4;
+	r = 0;
+	while(*t)
+	{
+		if (x % 5 == 0) //the x coordinate will always be < 4
+			x = 0;
+		if (*t++ == '#')
+		{
+			if (x < l)
+				l = x;
+			if (x > r)
+				r = x;
+		}
+		x++;
+	}
+	return (l);
+}
+
+static int	tet_row(char *t)
+{
+	char	*firsth;
+	int		index;
+
+	index = 0;
+	firsth = ft_strchr(t, '#');
+	if (firsth)
+		index = firsth - t;
+	return (index / 5);
+}
+
+//reduce tetrimino starting from the first index to the last
+//instance of #.
 char	*reduce_tetrimino(char *t)
 {
+	int		i;
     int     count;
     char    *reduced;
     char    *reducedcpy;
 
+	i = leftmost(t) + tet_row(t) * 5;
     count = 0;
-    t = strchr(t, '#');
     reduced = (char *)malloc(sizeof(char) * 14);
     reducedcpy = reduced;
-    while (*t && count < 4)
+    while (t[i] && count < 4)
     {
-        if (*t == '\n')
-            t++;
-        if (*t == '#')
+        if (t[i] == '\n')
+            i++;
+        if (t[i] == '#')
             count++;
-        *reduced++ = *t++;
+		*reduced++ = t[i++];
     }
     *reduced = '\0';
+	printf("reduced string: %s\n", reducedcpy);
     return (reducedcpy);
 }
 
