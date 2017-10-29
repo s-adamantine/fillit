@@ -31,26 +31,42 @@ void    print_map(t_map *map)
     }
 }
 
-t_map	*init_map(t_tet **tetriminos)
+t_map   *create_map(int size)
 {
-    int		i;
-    int 	ntet;
-	int    	size;
-	char	*map_str;
+    int     i;
     t_map   *map;
+    char    *map_str;
 
     i = 0;
+    map = ft_memalloc(sizeof(t_map));
+    map_str = ft_memalloc(size * size); //not allocating for end /0
+    while (i < size * size)
+        map_str[i++] = '.';
+    map->size = size;
+    map->str = map_str;
+    return (map);
+}
+
+t_map	*init_map(t_tet **tetriminos)
+{
+    int 	ntet;
+	int    	size;
+
     ntet = 0;
 	size = 2;
     while ((*tetriminos++)->str)
 		ntet++;
 	while ((size * size) < ntet * 4)
         size++;
-	map = ft_memalloc(sizeof(t_map));
-	map_str = ft_memalloc(size * size); //not allocating for end /0
-	while (i < size * size)
-		map_str[i++] = '.';
-    map->size = size;
-	map->str = map_str;
-	return (map);
+    return (create_map(size));
+}
+
+
+t_map   *expand_map(t_map   *old_map)
+{
+    int     size;
+
+    size = old_map->size + 1;
+    free(&old_map);
+    return (create_map(size));
 }

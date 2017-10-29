@@ -22,7 +22,6 @@ static int      check_fit(t_map *map, t_tet *tetrimino)
 
     t = 0;
     m = map->m;
-    // printf("check fit in %d\n", map->m);
     while (tetrimino->str[t])
     {
         if (t != 0 && t % 4 == 0)
@@ -53,8 +52,6 @@ static void insert_tetrimino(t_map *map, t_tet *tetrimino)
     {
         if (t != 0 && t % 4 == 0)
             m = m + (map->size) - 4;
-        // printf("t[%c], ", tetrimino->str[t]);
-        // printf("m[%d]: %c\n", m, map->str[m]);
         if (tetrimino->str[t++] == '#')
             (map->str)[m] = tetrimino->letter;
         m++;
@@ -91,8 +88,9 @@ t_map	*solve(t_tet **tetriminos, t_map *map)
     while (tetriminos[i]->str)
     {
         map->m = 0;
-        fit_tetrimino(map, tetriminos[i]);
         printf("tetriminos->str[%d]: %s\n", i, tetriminos[i]->str);
+        if (!fit_tetrimino(map, tetriminos[i]))
+            printf("the tetrimino won't fit in the map.");
         printf("map->str: %s\n", map->str);
         i++;
     }
