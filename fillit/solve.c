@@ -58,16 +58,16 @@ static void insert_tetrimino(t_map *map, t_tet *tetrimino)
     }
 }
 
-static void clear_tetrimino(t_map *map, t_tet *tetrimino)
-{
-    int t;
-    int m;
-
-    t = 0;
-    m = tetrimino->coord;
-    while (tetrimino->str[t++])
-        (map->str)[m++] = '.';
-}
+// static void clear_tetrimino(t_map *map, t_tet *tetrimino)
+// {
+//     int t;
+//     int m;
+//
+//     t = 0;
+//     m = tetrimino->coord;
+//     while (tetrimino->str[t++])
+//         (map->str)[m++] = '.';
+// }
 
 // iterates through map and calls check_fit at every m, if check_fit
 // works, copies out tetrimino to the map, else increments m until
@@ -76,6 +76,7 @@ static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
 {
     int     M;
 
+    map->m = 0;
     M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str); //last m where it needs to try fitting
 	while (map->m <= M)
 	{
@@ -91,33 +92,32 @@ static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
 	return (0);
 }
 
-t_map	*solve(t_tet **tetriminos, t_map *map)
+t_map	*solve(t_tet **tetriminos, t_map *map, int i)
 {
-    int i;
-
-    i = 0;
-    while (tetriminos[i]->str)
+    if (tetriminos[i]->str == NULL)
+        return (0);
+    if (fit_tetrimino(map, tetriminos[i]))
+        return (solve(tetriminos, map, ++i));
+    else
     {
-        map->m = 0;
-        printf("tetriminos->str[%d]: %s\n", i, tetriminos[i]->str);
-        if (!fit_tetrimino(map, tetriminos[i]))
-        {
-            clear_tetrimino(map, tetriminos[i-1]);
-            clear_tetrimino(map, tetriminos[i-2]);
-        }
-        printf("map->str: %s\n", map->str);
-        i++;
+        //clear previous tetrimino, try to solve w/ m not starting at the first coordinate,
+        //but at the coordinate after. 
+        clear_tetrimino(map, tetrimino, i);
+            return(solve)
+        printf("can't fit the next tetrimino");
     }
-    return (map);
+    return (0);
 }
 
 //need this so that bc you can't instantiate when you backtrack
 t_map    *solve_entry(t_tet **tetriminos)
 {
+    int     i;
     t_map   *map;
 
+    i = 0;
     map = init_map(tetriminos);
-    solve(tetriminos, map);
+    solve(tetriminos, map, i);
     print_map(map);
     return (map);
 }

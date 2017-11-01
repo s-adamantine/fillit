@@ -139,7 +139,6 @@ char	*reduce_tetrimino(char *t)
 		*reduced++ = t[i++];
     }
     *reduced = '\0';
-	printf("reduced string: %s\n", reducedcpy);
     return (reducedcpy);
 }
 
