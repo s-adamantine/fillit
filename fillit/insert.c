@@ -152,6 +152,7 @@ static t_tet	*get_next_tetrimino(char c, char *str)
 	{
 		t->str = reduce_tetrimino(str);
 		t->width = tet_width(str);
+		t->coord = -1;
 	}
 	else
 		t->str = NULL;

@@ -58,16 +58,22 @@ static void insert_tetrimino(t_map *map, t_tet *tetrimino)
     }
 }
 
-// static void clear_tetrimino(t_map *map, t_tet *tetrimino)
-// {
-//     int t;
-//     int m;
-//
-//     t = 0;
-//     m = tetrimino->coord;
-//     while (tetrimino->str[t++])
-//         (map->str)[m++] = '.';
-// }
+// clear previous tet
+static void clear_tetrimino(t_map *map, t_tet *tetrimino)
+{
+    int t;
+    int m;
+
+    t = 0;
+    m = tetrimino->coord;
+    while (tetrimino->str[t])
+    {
+        if (tetrimino->str[t] == '#')
+            (map->str)[m] = '.';
+        m++;
+        t++;
+    }
+}
 
 // iterates through map and calls check_fit at every m, if check_fit
 // works, copies out tetrimino to the map, else increments m until
@@ -76,8 +82,8 @@ static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
 {
     int     M;
 
-    map->m = 0;
     M = (int) ft_strlen(map->str) - (int) ft_strlen(tetrimino->str); //last m where it needs to try fitting
+    map->m = tetrimino->coord + 1; //set initial t->coord to -1, and so if there's already a slot, it increments it by one (for the recursion!)
 	while (map->m <= M)
 	{
         if (map->m % map->size > map->size - tetrimino->width)
@@ -85,28 +91,45 @@ static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
         if (check_fit(map, tetrimino))
         {
             insert_tetrimino(map, tetrimino);
+            print_map(map);
+            printf("\n");
             return (1);
         }
         map->m++;
 	}
+    printf("this tet doesn't fit at %d.\n", tetrimino->coord);
 	return (0);
 }
 
+//clears the previous tetrimino and refits that current tetrimino somewhere else.
+static int refit_tetrimino(t_map *map, t_tet *tetrimino)
+{
+    // if (!check_fit(map, tetrimino))
+    //     return (0);
+    if (tetrimino->coord + ft_strlen(tetrimino->str) == ft_strlen(map->str))
+        return (0); //don't want to clear if you can't move c to the right anymore.
+    clear_tetrimino(map, tetrimino);
+    return (fit_tetrimino(map, tetrimino));
+}
+
+//keeps the immediately previous tetrimino and refits the one before it somewhere else.
 t_map	*solve(t_tet **tetriminos, t_map *map, int i)
 {
+    printf("now trying to solve: %s\n", tetriminos[i]->str);
     if (tetriminos[i]->str == NULL)
         return (0);
-    if (fit_tetrimino(map, tetriminos[i]))
-        return (solve(tetriminos, map, ++i));
-    else
+    if (!fit_tetrimino(map, tetriminos[i]))
     {
-        //clear previous tetrimino, try to solve w/ m not starting at the first coordinate,
-        //but at the coordinate after. 
-        clear_tetrimino(map, tetrimino, i);
-            return(solve)
-        printf("can't fit the next tetrimino");
+        if (!refit_tetrimino(map, tetriminos[--i])) //if you can't refit the previous tet anymore
+        {
+            refit_tetrimino(map, tetriminos[--i]); //refit the one before that
+            i += 2; //not sure why this one works here.
+            return (solve(tetriminos, map, i)); //try and solve the current one again
+        }
+        else
+            return (solve(tetriminos, map, ++i));
     }
-    return (0);
+    return (solve(tetriminos, map, ++i));
 }
 
 //need this so that bc you can't instantiate when you backtrack

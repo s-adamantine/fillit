@@ -32,6 +32,7 @@ typedef struct	s_tet
 typedef struct	s_map
 {
 	int			m;
+	int			ntet;
 	int			size;
 	char		*str;
 }				t_map;

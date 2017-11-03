@@ -44,6 +44,7 @@ int				main(int argc, char **argv)
 	if (!(tetriminos = insert_array(buf)))
 		exit_error("error in insert.");
 	solve_entry(tetriminos);
+	ft_putchar('\n');
 	// ft_memdel((void**)&tetriminos);
 	// ft_memdel((void**)&buf);
 	return (0);
