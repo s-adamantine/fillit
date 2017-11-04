@@ -101,18 +101,20 @@ static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
 	return (0);
 }
 
-//clears the previous tetrimino and refits that current tetrimino somewhere else.
+//clears a tetrimino and tries to refit that tetrimino further along the
+//map. if you can't fit that tet any further to the right, it reinserts it
+//at the same spot and returns 0.
 static int refit_tetrimino(t_map *map, t_tet *tetrimino)
 {
-    // if (!check_fit(map, tetrimino))
-    //     return (0);
-    if (tetrimino->coord + ft_strlen(tetrimino->str) == ft_strlen(map->str))
-        return (0); //don't want to clear if you can't move c to the right anymore.
     clear_tetrimino(map, tetrimino);
-    return (fit_tetrimino(map, tetrimino));
+    if (!fit_tetrimino(map, tetrimino))
+    {
+        insert_tetrimino(map, tetrimino);
+        return (0);
+    }
+    return (1);
 }
 
-//keeps the immediately previous tetrimino and refits the one before it somewhere else.
 t_map	*solve(t_tet **tetriminos, t_map *map, int i)
 {
     printf("now trying to solve: %s\n", tetriminos[i]->str);
