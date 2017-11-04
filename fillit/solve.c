@@ -68,8 +68,12 @@ static void clear_tetrimino(t_map *map, t_tet *tetrimino)
     m = tetrimino->coord;
     while (tetrimino->str[t])
     {
+        if (t != 0 && t % 4 == 0)
+            m = m + (map->size) - 4;
         if (tetrimino->str[t] == '#')
+        {
             (map->str)[m] = '.';
+        }
         m++;
         t++;
     }
