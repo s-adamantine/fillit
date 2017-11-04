@@ -117,19 +117,20 @@ static int refit_tetrimino(t_map *map, t_tet *tetrimino)
 
 t_map	*solve(t_tet **tetriminos, t_map *map, int i)
 {
+    int j;
     printf("now trying to solve: %s\n", tetriminos[i]->str);
     if (tetriminos[i]->str == NULL)
         return (0);
     while (!fit_tetrimino(map, tetriminos[i])) //try to fit the current tet in, if you can't-
     {
-        if (!refit_tetrimino(map, tetriminos[--i])) //refits the previous one and tries to fit current tet in.
+        j = i;
+        if (!refit_tetrimino(map, tetriminos[--j])) //refits the previous one and tries to fit current tet in.
         {
-            if (!refit_tetrimino(map, tetriminos[--i])) //if that doesn't work, tries to refit the tet before that
+            if (!refit_tetrimino(map, tetriminos[--j])) //if that doesn't work, tries to refit the tet before that
                 return (0);
-            i += 2; //not sure why this one works here.
             return (solve(tetriminos, map, i)); //try and solve the current one again
         }
-        return (solve(tetriminos, map, ++i));
+        return (solve(tetriminos, map, i));
     }
     return (solve(tetriminos, map, ++i));
 }
