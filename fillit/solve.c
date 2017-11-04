@@ -115,20 +115,23 @@ static int refit_tetrimino(t_map *map, t_tet *tetrimino)
     return (1);
 }
 
-t_map	*solve(t_tet **tetriminos, t_map *map, int i)
+//i = current tet, j = current backtrack movement.
+//if you can fit the current tet in, you recurse and fit the next tet in.
+//if you can't fit the current tet in, instantiate backtracking.
+int         solve(t_tet **tetriminos, t_map *map, int i)
 {
     int j;
     printf("now trying to solve: %s\n", tetriminos[i]->str);
     if (tetriminos[i]->str == NULL)
-        return (0);
-    while (!fit_tetrimino(map, tetriminos[i])) //try to fit the current tet in, if you can't-
+        return (1);
+    while (!fit_tetrimino(map, tetriminos[i]))
     {
-        j = i;
-        if (!refit_tetrimino(map, tetriminos[--j])) //refits the previous one and tries to fit current tet in.
+        j = i - 1;
+        //tries to refit previous tetriminos until one moves to the right, and then tries to solve the current one again.
+        while (!refit_tetrimino(map, tetriminos[j]))
         {
-            if (!refit_tetrimino(map, tetriminos[--j])) //if that doesn't work, tries to refit the tet before that
+            if (--j < 0) //moved all tets to the right and still can't find a match.
                 return (0);
-            return (solve(tetriminos, map, i)); //try and solve the current one again
         }
         return (solve(tetriminos, map, i));
     }
