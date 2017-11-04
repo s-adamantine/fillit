@@ -95,13 +95,10 @@ static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
         if (check_fit(map, tetrimino))
         {
             insert_tetrimino(map, tetrimino);
-            print_map(map);
-            printf("\n");
             return (1);
         }
         map->m++;
 	}
-    printf("this tet doesn't fit at %d.\n", tetrimino->coord);
 	return (0);
 }
 
@@ -111,12 +108,13 @@ static int  fit_tetrimino(t_map *map, t_tet *tetrimino)
 static int refit_tetrimino(t_map *map, t_tet *tetrimino)
 {
     clear_tetrimino(map, tetrimino);
-    if (!fit_tetrimino(map, tetrimino))
-    {
-        insert_tetrimino(map, tetrimino);
-        return (0);
-    }
-    return (1);
+    return (fit_tetrimino(map, tetrimino));
+}
+
+static void  reset_coordinates(t_tet **tetriminos, int j, int i)
+{
+    while (j != i)
+        tetriminos[++j]->coord = -1;
 }
 
 //i = current tet, j = current backtrack movement.
@@ -125,9 +123,11 @@ static int refit_tetrimino(t_map *map, t_tet *tetrimino)
 int         solve(t_tet **tetriminos, t_map *map, int i)
 {
     int j;
-    printf("now trying to solve: %s\n", tetriminos[i]->str);
+
     if (tetriminos[i]->str == NULL)
         return (1);
+    if (ft_strlen(tetriminos[i]->str) > ft_strlen(map->str))
+        return (0);
     while (!fit_tetrimino(map, tetriminos[i]))
     {
         j = i - 1;
@@ -137,7 +137,9 @@ int         solve(t_tet **tetriminos, t_map *map, int i)
             if (--j < 0) //moved all tets to the right and still can't find a match.
                 return (0);
         }
-        return (solve(tetriminos, map, i));
+        //reset all the coordinates of the tets up until that point, and try to refit all tets.
+        reset_coordinates(tetriminos, j, i);
+        return (solve(tetriminos, map, ++j));
     }
     return (solve(tetriminos, map, ++i));
 }
@@ -150,7 +152,11 @@ t_map    *solve_entry(t_tet **tetriminos)
 
     i = 0;
     map = init_map(tetriminos);
-    solve(tetriminos, map, i);
+    while (!solve(tetriminos, map, i))
+    {
+        map = expand_map(map);
+        reset_coordinates(tetriminos, -1, 25);
+    }
     print_map(map);
     return (map);
 }

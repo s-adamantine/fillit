@@ -21,7 +21,7 @@ void    print_map(t_map *map)
     i = 0;
     while (map->str[i])
     {
-        if (i % (map->size) == 0)
+        if (i != 0 && i % (map->size) == 0)
         {
             ft_putchar('\n');
             ft_putchar(map->str[i++]);
@@ -67,6 +67,6 @@ t_map   *expand_map(t_map   *old_map)
     int     size;
 
     size = old_map->size + 1;
-    free(&old_map);
+    free(old_map);
     return (create_map(size));
 }

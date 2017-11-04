@@ -12,16 +12,6 @@
 
 #include "fillit.h"
 
-/*
-**	@in: single file containing up to 26 tetriminos, separated by empty line. No empty line after last tetrimino.
-**  @out: stdout smallest square solution with new line. No empty line
-**  @errors:
-**          1. invalid use of fillit command
-**				- displays 'usage' message
-**			2. invalid file format
-**				- displays 'error' to stdout and exits
-*/
-
 static void		exit_error(char *str)
 {
 	ft_putendl(str);
@@ -42,9 +32,8 @@ int				main(int argc, char **argv)
 	if (!(parse_tetrimino_file(fd, buf)))
 		exit_error("error");
 	if (!(tetriminos = insert_array(buf)))
-		exit_error("error in insert.");
+		exit_error("error");
 	solve_entry(tetriminos);
-	ft_putchar('\n');
 	// ft_memdel((void**)&tetriminos);
 	// ft_memdel((void**)&buf);
 	return (0);
