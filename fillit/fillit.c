@@ -6,7 +6,7 @@
 /*   By: rgaia <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 13:17:42 by rgaia             #+#    #+#             */
-/*   Updated: 2017/10/17 19:49:13 by rgaia            ###   ########.fr       */
+/*   Updated: 2017/11/07 12:31:37 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int				main(int argc, char **argv)
 	if (!(tetriminos = insert_array(buf)))
 		exit_error("error");
 	solve_entry(tetriminos);
-	// ft_memdel((void**)&tetriminos);
-	// ft_memdel((void**)&buf);
+	ft_memdel((void**)&tetriminos);
+	ft_memdel((void**)&buf);
 	return (0);
 }

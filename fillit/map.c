@@ -6,67 +6,64 @@
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/26 23:40:17 by sadamant          #+#    #+#             */
-/*   Updated: 2017/10/26 23:40:24 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/11/07 11:37:57 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-// iterate through map and prints a . or the character
-// (depending on the tetrimino that it's in)
-void    print_map(t_map *map)
+void	print_map(t_map *map)
 {
-    size_t      i;
+	size_t	i;
 
-    i = 0;
-    while (map->str[i])
-    {
-        if (i != 0 && i % (map->size) == 0)
-        {
-            ft_putchar('\n');
-            ft_putchar(map->str[i++]);
-        }
-        else
-            ft_putchar(map->str[i++]);
-    }
+	i = 0;
+	while (map->str[i])
+	{
+		if (i != 0 && i % (map->size) == 0)
+		{
+			ft_putchar('\n');
+			ft_putchar(map->str[i++]);
+		}
+		else
+			ft_putchar(map->str[i++]);
+	}
 }
 
-t_map   *create_map(int size)
+t_map	*create_map(int size)
 {
-    int     i;
-    t_map   *map;
-    char    *map_str;
+	int		i;
+	t_map	*map;
+	char	*map_str;
 
-    i = 0;
-    map = ft_memalloc(sizeof(t_map));
-    map_str = ft_memalloc(size * size); //not allocating for end /0
-    while (i < size * size)
-        map_str[i++] = '.';
-    map->size = size;
-    map->str = map_str;
-    return (map);
+	i = 0;
+	map = ft_memalloc(sizeof(t_map));
+	map_str = ft_memalloc(size * size);
+	while (i < size * size)
+		map_str[i++] = '.';
+	map->size = size;
+	map->str = map_str;
+	return (map);
 }
 
 t_map	*init_map(t_tet **tetriminos)
 {
-    int 	ntet;
-	int    	size;
+	int		ntet;
+	int		size;
 
-    ntet = 0;
+	ntet = 0;
 	size = 2;
-    while ((*tetriminos++)->str)
+	while ((*tetriminos++)->str)
 		ntet++;
 	while ((size * size) < ntet * 4)
-        size++;
-    return (create_map(size));
+		size++;
+	return (create_map(size));
 }
 
-
-t_map   *expand_map(t_map   *old_map)
+t_map	*expand_map(t_map *old_map)
 {
-    int     size;
+	int		size;
 
-    size = old_map->size + 1;
-    free(old_map);
-    return (create_map(size));
+	size = old_map->size + 1;
+	free(old_map);
+	return (create_map(size));
 }
