@@ -33,7 +33,7 @@ int				main(int argc, char **argv)
 		exit_error("error");
 	if (!(tetriminos = insert_array(buf)))
 		exit_error("error");
-	solve_entry(tetriminos);
+	solve(tetriminos);
 	ft_memdel((void**)&tetriminos);
 	ft_memdel((void**)&buf);
 	return (0);

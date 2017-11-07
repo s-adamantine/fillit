@@ -38,18 +38,15 @@ typedef struct	s_map
 
 int				parse_tetrimino_file(int fd, char *buf);
 int				fit_tetrimino(t_map *map, t_tet *tetrimino);
-int				refit_tetrimino(t_map *map, t_tet *tetrimino);
 int				tet_width(char *t);
 int				count_hash(char *t);
 int				connections(char *t);
 t_tet			**insert_array(char *buf);
-void			solve_smallest_square(t_tet *tetriminos, t_map *map);
-char			**valid_tetriminos(void);
+void			clear_tetrimino(t_map *map, t_tet *tetrimino);
 char			*reduce_tetrimino(char *t);
-t_map			*solve_entry(t_tet **tetriminos);
+t_map			*solve(t_tet **tetriminos);
 t_map			*expand_map(t_map *old_map);
 t_map			*init_map(t_tet **tetriminos);
-void			reset_coordinates(t_tet **tetriminos, int j, int i);
 void			print_map(t_map *map);
 
 #endif

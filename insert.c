@@ -17,29 +17,6 @@
 ** instance of #.
 */
 
-char			*reduce_tetrimino(char *t)
-{
-	int		i;
-	int		count;
-	char	*reduced;
-	char	*reducedcpy;
-
-	i = leftmost(t) + tet_row(t) * 5;
-	count = 0;
-	reduced = (char *)malloc(sizeof(char) * 14);
-	reducedcpy = reduced;
-	while (t[i] && count < 4)
-	{
-		if (t[i] == '\n')
-			i++;
-		if (t[i] == '#')
-			count++;
-		*reduced++ = t[i++];
-	}
-	*reduced = '\0';
-	return (reducedcpy);
-}
-
 static t_tet	*get_next_tetrimino(char c, char *str)
 {
 	t_tet	*t;
@@ -71,7 +48,7 @@ t_tet			**insert_array(char *buf)
 
 	i = 0;
 	letter = 'A';
-	if (!(tetriminos = ft_memalloc(sizeof(t_tet *) * 26)))
+	if (!(tetriminos = ft_memalloc(sizeof(t_tet *) * 27)))
 		return (NULL);
 	while (*buf)
 	{
@@ -83,7 +60,7 @@ t_tet			**insert_array(char *buf)
 			return (NULL);
 		buf = buf + 21;
 	}
-	while (i < 26)
+	while (i < 27)
 		tetriminos[i++] = get_next_tetrimino('\0', NULL);
 	return (tetriminos);
 }

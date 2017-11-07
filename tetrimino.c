@@ -83,39 +83,49 @@ int			tet_width(char *t)
 	return (r - l + 1);
 }
 
+/*
+** find the leftmost relevant index of the tetrimino
+*/
+
 static int	leftmost(char *t)
 {
 	int	x;
+	int y;
 	int l;
-	int r;
 
 	x = 0;
+	y = (ft_strchr(t, '#') - t) / 5;
 	l = 4;
-	r = 0;
 	while (*t)
 	{
 		if (x % 5 == 0)
 			x = 0;
-		if (*t++ == '#')
-		{
-			if (x < l)
-				l = x;
-			if (x > r)
-				r = x;
-		}
+		if (*t++ == '#' && x < l)
+			l = x;
 		x++;
 	}
-	return (l);
+	return (l + y * 5);
 }
 
-static int	tet_row(char *t)
+char		*reduce_tetrimino(char *t)
 {
-	char	*firsth;
-	int		index;
+	int		i;
+	int		count;
+	char	*reduced;
+	char	*reducedcpy;
 
-	index = 0;
-	firsth = ft_strchr(t, '#');
-	if (firsth)
-		index = firsth - t;
-	return (index / 5);
+	i = leftmost(t);
+	count = 0;
+	reduced = (char *)malloc(sizeof(char) * 14);
+	reducedcpy = reduced;
+	while (t[i] && count < 4)
+	{
+		if (t[i] == '\n')
+			i++;
+		if (t[i] == '#')
+			count++;
+		*reduced++ = t[i++];
+	}
+	*reduced = '\0';
+	return (reducedcpy);
 }

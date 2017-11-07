@@ -68,7 +68,7 @@ static void		insert_tetrimino(t_map *map, t_tet *tetrimino)
 ** clear previous tet
 */
 
-static void		clear_tetrimino(t_map *map, t_tet *tetrimino)
+void		clear_tetrimino(t_map *map, t_tet *tetrimino)
 {
 	int t;
 	int m;
@@ -112,16 +112,4 @@ int				fit_tetrimino(t_map *map, t_tet *tetrimino)
 		map->m++;
 	}
 	return (0);
-}
-
-/*
-** clears a tetrimino and tries to refit that tetrimino further along the
-** map. if you can't fit that tet any further to the right, it reinserts it
-** at the same spot and returns 0.
-*/
-
-int				refit_tetrimino(t_map *map, t_tet *tetrimino)
-{
-	clear_tetrimino(map, tetrimino);
-	return (fit_tetrimino(map, tetrimino));
 }
