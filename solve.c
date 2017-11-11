@@ -6,7 +6,7 @@
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 17:08:34 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/08 17:39:21 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/11/11 12:04:37 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			solve_map(t_tet **tetriminos, t_map *map, int i)
 		{
 			if (--j < 0)
 				return (0);
-		clear_tetrimino(map, tetriminos[j]);
+			clear_tetrimino(map, tetriminos[j]);
 		}
 		reset_coordinates(tetriminos, j, i);
 		return (solve_map(tetriminos, map, ++j));

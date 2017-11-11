@@ -6,7 +6,7 @@
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 12:16:09 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/07 12:24:27 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/11/11 12:04:47 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void		insert_tetrimino(t_map *map, t_tet *tetrimino)
 ** clear previous tet
 */
 
-void		clear_tetrimino(t_map *map, t_tet *tetrimino)
+void			clear_tetrimino(t_map *map, t_tet *tetrimino)
 {
 	int t;
 	int m;
