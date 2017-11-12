@@ -28,25 +28,28 @@ int			solve_map(t_tet **tetriminos, t_map *map, int i)
 {
 	int j;
 
-	if (tetriminos[i]->str == NULL)
-		return (1);
 	if (ft_strlen(tetriminos[i]->str) > ft_strlen(map->str))
 		return (0);
-	if (!fit_tetrimino(map, tetriminos[i]))
+	while (tetriminos[i]->str != NULL)
 	{
-		j = i - 1;
-		clear_tetrimino(map, tetriminos[j]);
-		while (!fit_tetrimino(map, tetriminos[j]))
+		while (!fit_tetrimino(map, tetriminos[i]))
 		{
-			if (--j < 0)
-				return (0);
+			j = i - 1;
 			clear_tetrimino(map, tetriminos[j]);
+			while (!fit_tetrimino(map, tetriminos[j]))
+			{
+				if (--j < 0)
+					return (0);
+				clear_tetrimino(map, tetriminos[j]);
+			}
+			reset_coordinates(tetriminos, j, i);
+			i = j + 1;
 		}
-		reset_coordinates(tetriminos, j, i);
-		return (solve_map(tetriminos, map, ++j));
+		i++;
 	}
-	return (solve_map(tetriminos, map, ++i));
+	return (1);
 }
+
 
 t_map		*solve(t_tet **tetriminos)
 {
