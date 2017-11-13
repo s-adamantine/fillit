@@ -28,7 +28,7 @@ int			solve_map(t_tet **tetriminos, t_map *map, int i)
 {
 	int j;
 
-	if (ft_strlen(tetriminos[i]->str) > ft_strlen(map->str))
+	if (tetriminos[i]->height > map->size || tetriminos[i]->width > map->size)
 		return (0);
 	while (tetriminos[i]->str != NULL)
 	{

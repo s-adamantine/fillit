@@ -22,7 +22,7 @@
 typedef struct	s_tet
 {
 	int			coord;
-	int			start;
+	int			height;
 	int			width;
 	char		letter;
 	char		*str;

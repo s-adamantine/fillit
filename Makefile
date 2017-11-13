@@ -30,7 +30,7 @@ $(NAME):
 	@$(CC) -o $(NAME) $(LIB) $(OBJ)
 
 clean:
-	@rm -rf $(LIBDIR)/*.o
+	@$(MAKE) clean -C $(LIBDIR)
 	@rm -rf $(OBJ)
 
 fclean: clean

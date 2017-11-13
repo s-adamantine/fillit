@@ -27,6 +27,7 @@ static t_tet	*get_next_tetrimino(char c, char *str)
 	{
 		t->str = reduce_tetrimino(str);
 		t->width = tet_width(str);
+		t->height = ft_strlen(t->str) / 4 + 1;
 		t->coord = -1;
 	}
 	else

@@ -27,6 +27,8 @@ static int		check_fit(t_map *map, t_tet *tetrimino)
 	m = map->m;
 	while (tetrimino->str[t])
 	{
+		if (map->size < 3 && t % 4 >= tetrimino->width)
+			t = t + (4 - tetrimino->width);
 		if (t != 0 && t % 4 == 0)
 			m = m + (map->size) - 4;
 		if (tetrimino->str[t++] == '#')
@@ -98,7 +100,10 @@ int				fit_tetrimino(t_map *map, t_tet *tetrimino)
 {
 	int last_m;
 
-	last_m = (int)ft_strlen(map->str) - (int)ft_strlen(tetrimino->str);
+	if (map->size > 3)
+		last_m = (int)ft_strlen(map->str) - (int)ft_strlen(tetrimino->str);
+	else
+		last_m = (int) ((ft_strlen(map->str)) - ((tetrimino->height - 1) * map->size) - tetrimino->width);
 	map->m = tetrimino->coord + 1;
 	while (map->m <= last_m)
 	{
