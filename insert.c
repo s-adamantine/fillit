@@ -61,7 +61,6 @@ t_tet			**insert_array(char *buf)
 			return (NULL);
 		buf = buf + 21;
 	}
-	while (i < 27)
-		tetriminos[i++] = get_next_tetrimino('\0', NULL);
+	tetriminos[i++] = get_next_tetrimino('\0', NULL);
 	return (tetriminos);
 }
