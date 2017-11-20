@@ -6,7 +6,7 @@
 #    By: rgaia <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/10/11 23:03:39 by rgaia             #+#    #+#              #
-#    Updated: 2017/11/11 12:26:31 by sadamant         ###   ########.fr        #
+#    Updated: 2017/11/21 14:49:55 by sadamant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,14 +19,15 @@ OBJ = $(SRC:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
 
-LIB = -L./libft -lft
 LIBDIR = libft/
+LIBINC = $(LIBDIR)/includes
+LIB = -L./$(LIBDIR) -lft
 
 all: $(NAME)
 
 $(NAME):
 	@$(MAKE) -C $(LIBDIR)
-	@$(CC) -c $(FLAGS) $(SRC)
+	@$(CC) -c $(FLAGS) $(SRC) -I $(LIBINC) 
 	@$(CC) -o $(NAME) $(LIB) $(OBJ)
 
 clean:
@@ -36,5 +37,4 @@ clean:
 fclean: clean
 	@rm -rf $(NAME) $(LIBDIR)/$(LIBNAME)
 
-re: fclean
-	@make
+re: fclean all

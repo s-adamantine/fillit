@@ -6,7 +6,7 @@
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/26 23:37:16 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/07 12:31:18 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/11/20 14:02:03 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_tet			**insert_array(char *buf)
 			return (NULL);
 		buf = buf + 21;
 	}
-	tetriminos[i++] = get_next_tetrimino('\0', NULL);
+	while (i < 27)
+		tetriminos[i++] = get_next_tetrimino('\0', NULL);
 	return (tetriminos);
 }

@@ -6,7 +6,7 @@
 /*   By: rgaia <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 17:10:14 by rgaia             #+#    #+#             */
-/*   Updated: 2017/11/14 10:42:20 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/11/21 15:29:49 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 # include <fcntl.h>
 # include <stdlib.h>
-# include "libft/libft.h"
+# include "libft.h"
 
 typedef struct	s_tet
 {

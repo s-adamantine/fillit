@@ -6,7 +6,7 @@
 /*   By: sadamant <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 12:16:09 by sadamant          #+#    #+#             */
-/*   Updated: 2017/11/11 12:04:47 by sadamant         ###   ########.fr       */
+/*   Updated: 2017/11/21 15:29:37 by sadamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static int		check_fit(t_map *map, t_tet *tetrimino)
 	m = map->m;
 	while (tetrimino->str[t])
 	{
-		if (map->size < 4 && t % 4 >= tetrimino->width)
- 			t = t + (4 - tetrimino->width);
-		if (t != 0 && t % 4 == 0)
+		if (map->size < 4 && t % 4 >= map->size)
+			t = t + (4 - map->size);
+		if (map->size > 4 && t != 0 && t % 4 == 0)
 			m = m + (map->size) - 4;
 		if (tetrimino->str[t++] == '#')
 		{

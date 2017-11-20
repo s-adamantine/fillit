@@ -6,11 +6,12 @@
 #    By: sadamant <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/09 06:18:48 by sadamant          #+#    #+#              #
-#    Updated: 2017/11/11 12:13:37 by sadamant         ###   ########.fr        #
+#    Updated: 2017/11/21 12:51:25 by sadamant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
+INCLUDES = includes/
 
 SRC = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	  ft_isdigit.c ft_isprint.c ft_itoa.c ft_lstadd.c ft_lstdel.c ft_lstdelone.c \
@@ -33,7 +34,7 @@ FLAGS = -c -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME):
-	@$(CC) $(FLAGS) $(SRC)
+	@$(CC) $(FLAGS) $(SRC) -I $(INCLUDES)
 	@ar -rc $(NAME) $(OBJ)
 
 clean:
@@ -43,4 +44,3 @@ fclean: clean
 	@rm -rf $(NAME)
 
 re: fclean all
-	@rm -rf $(OBJ)
