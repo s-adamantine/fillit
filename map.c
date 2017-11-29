@@ -27,6 +27,7 @@ void	print_map(t_map *map)
 		else
 			ft_putchar(map->str[i++]);
 	}
+	ft_putchar('\n');
 }
 
 t_map	*create_map(int size)
